@@ -1532,3 +1532,277 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* =========================================
+   PARALLEL ME - COMPLETE LIGHT MODE FIX
+   ========================================= */
+
+.app {
+  background: #0a0b12;
+  color: #f7f6ff;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Main page backgrounds */
+.app.light-theme {
+  background: #f7f5ff;
+  color: #302342;
+  color-scheme: light;
+}
+
+.app.light-theme .hero,
+.app.light-theme .scenario-page,
+.app.light-theme .dashboard-page,
+.app.light-theme .inner-page {
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    #eee5ff 0%,
+    #f7f5ff 65%
+  );
+  color: #302342;
+}
+
+.app.light-theme .features {
+  background: #f7f5ff;
+  color: #302342;
+}
+
+/* Navbar and footer */
+.app.light-theme .navbar {
+  background: #ffffff;
+  border-color: #e5dcef;
+}
+
+.app.light-theme .navbar .links a {
+  color: #625471;
+}
+
+.app.light-theme .navbar .links a:hover,
+.app.light-theme .navbar .links a.active {
+  color: #8058e8;
+}
+
+.app.light-theme .logo {
+  color: #302342;
+}
+
+.app.light-theme footer {
+  background: #eee8f8;
+  color: #302342;
+  border-color: #e0d5ef;
+}
+
+.app.light-theme footer p,
+.app.light-theme footer small {
+  color: #70647f;
+}
+
+.app.light-theme footer small {
+  border-color: #ded2eb;
+}
+
+/* Headings and descriptions */
+.app.light-theme .hero-text,
+.app.light-theme .section-heading p,
+.app.light-theme .inner-page p,
+.app.light-theme .scenario-heading > p,
+.app.light-theme .results-heading > p,
+.app.light-theme .hours-heading p,
+.app.light-theme .activity-title p,
+.app.light-theme .dashboard-heading > p,
+.app.light-theme .saved-heading p,
+.app.light-theme .dashboard-stat p,
+.app.light-theme .feature-card p,
+.app.light-theme .result-card p,
+.app.light-theme .empty-state p,
+.app.light-theme .saved-score span {
+  color: #70647f;
+}
+
+.app.light-theme .stats span {
+  color: #70647f;
+}
+
+.app.light-theme .stats strong,
+.app.light-theme .activity-value,
+.app.light-theme .hours-total {
+  color: #6846b8;
+}
+
+/* Badges and feature icons */
+.app.light-theme .badge {
+  color: #6846b8;
+  background: #eee7ff;
+  border-color: #d9cafa;
+}
+
+.app.light-theme .feature-icon,
+.app.light-theme .activity-icon,
+.app.light-theme .saved-icon {
+  background: #eee7ff;
+  color: #6846b8;
+}
+
+/* Cards across pages */
+.app.light-theme .feature-card,
+.app.light-theme .scenario-form,
+.app.light-theme .activity-item,
+.app.light-theme .result-card,
+.app.light-theme .dashboard-stat,
+.app.light-theme .saved-card,
+.app.light-theme .empty-state,
+.app.light-theme .analytics-card,
+.app.light-theme .analytics-scenario,
+.app.light-theme .dashboard-insights,
+.app.light-theme .metric-overview-card,
+.app.light-theme .best-future-card,
+.app.light-theme .about-card,
+.app.light-theme .profile-stat,
+.app.light-theme .profile-scenario,
+.app.light-theme .comparison-results,
+.app.light-theme .compare-empty,
+.app.light-theme .profile-empty,
+.app.light-theme .profile-hero,
+.app.light-theme .about-bottom {
+  background: #ffffff;
+  color: #302342;
+  border-color: #e2d7f2;
+  box-shadow: 0 6px 22px rgba(68, 42, 100, 0.05);
+}
+
+/* Scenario form and inputs */
+.app.light-theme .scenario-name,
+.app.light-theme .scenario-search,
+.app.light-theme .scenario-select,
+.app.light-theme input,
+.app.light-theme select,
+.app.light-theme textarea {
+  background: #ffffff;
+  color: #302342;
+  border-color: #d8c9e8;
+}
+
+.app.light-theme .scenario-name::placeholder,
+.app.light-theme .scenario-search::placeholder {
+  color: #92869f;
+}
+
+.app.light-theme .scenario-select option {
+  background: #ffffff;
+  color: #302342;
+}
+
+.app.light-theme .scenario-name:focus,
+.app.light-theme .scenario-search:focus,
+.app.light-theme .scenario-select:focus {
+  border-color: #9670e8;
+}
+
+/* Secondary buttons */
+.app.light-theme .secondary-button {
+  color: #6846b8;
+  border-color: #d8c9e8;
+  background: #ffffff;
+}
+
+.app.light-theme .secondary-button:hover {
+  border-color: #9670e8;
+}
+
+.app.light-theme .theme-toggle,
+.app.light-theme .backup-button {
+  background: #eee7ff;
+  color: #56358d;
+  border-color: #d8c9f5;
+}
+
+.app.light-theme .nav-button,
+.app.light-theme .primary-button,
+.app.light-theme .generate-button {
+  color: #ffffff;
+  background: #7954cf;
+}
+
+.app.light-theme .nav-button:hover,
+.app.light-theme .primary-button:hover,
+.app.light-theme .generate-button:hover {
+  background: #6842bd;
+}
+
+/* Progress bars and analytics */
+.app.light-theme .progress-track,
+.app.light-theme .metric-track,
+.app.light-theme .analytics-track,
+.app.light-theme .metric-overview-card .analytics-track {
+  background: #e8e0f2;
+}
+
+.app.light-theme .best-future-card > span,
+.app.light-theme .best-future-card strong,
+.app.light-theme .overview-card-top strong,
+.app.light-theme .saved-score strong,
+.app.light-theme .saved-link,
+.app.light-theme .feature-card a {
+  color: #6846b8;
+}
+
+.app.light-theme .insights-header p,
+.app.light-theme .insights-note,
+.app.light-theme .best-future-card p,
+.app.light-theme .analytics-heading p,
+.app.light-theme .metric-difference {
+  color: #70647f;
+}
+
+.app.light-theme .toast-notification {
+  background: #ffffff;
+  color: #302342;
+  border-color: #ded2f5;
+}
+
+/* General borders */
+.app.light-theme .secondary-button,
+.app.light-theme .delete-button {
+  border-color: #ded2eb;
+}
+
+.app.light-theme .delete-button {
+  color: #b42345;
+  background: #fff5f6;
+}
+
+.app.light-theme .scenario-count,
+.app.light-theme .saved-date,
+.app.light-theme .result-card small {
+  color: #82758f;
+}
+
+/* Keep text readable inside all page sections */
+.app.light-theme .scenario-page h1,
+.app.light-theme .scenario-page h2,
+.app.light-theme .scenario-page h3,
+.app.light-theme .dashboard-page h1,
+.app.light-theme .dashboard-page h2,
+.app.light-theme .dashboard-page h3,
+.app.light-theme .features h2,
+.app.light-theme .feature-card h3,
+.app.light-theme .inner-page h1 {
+  color: #302342;
+}
+
+.app.light-theme .hero h1 span,
+.app.light-theme .scenario-heading h1 span,
+.app.light-theme .dashboard-heading h1 span {
+  background: linear-gradient(90deg, #7954cf, #6478d9, #a35dcc);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Mobile theme button */
+@media (max-width: 700px) {
+  .app.light-theme .theme-toggle {
+    background: #eee7ff;
+    color: #56358d;
+  }
+}
