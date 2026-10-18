@@ -1,8 +1,31 @@
-
-import Toast from "../components/Toast";
-import { exportScenarios, importScenarios } from "../utils/scenarioBackup";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  Sparkles,
+  Orbit,
+  Target,
+  Smile,
+  ChartNoAxesCombined,
+  Trophy,
+  Brain,
+  Zap,
+  HeartPulse,
+  BriefcaseBusiness,
+  Download,
+  Upload,
+  Plus,
+  Search,
+  Trash2,
+  ArrowUpRight,
+  GitCompareArrows,
+  Lightbulb,
+} from "lucide-react";
+
+import Toast from "../components/Toast";
+import {
+  exportScenarios,
+  importScenarios,
+} from "../utils/scenarioBackup";
 
 function Dashboard() {
   const [scenarios, setScenarios] = useState([]);
@@ -10,43 +33,26 @@ function Dashboard() {
   const [sortBy, setSortBy] = useState("newest");
   const [filterBy, setFilterBy] = useState("all");
   const [backupMessage, setBackupMessage] = useState("");
-const [importing, setImporting] = useState(false);
-const [toast, setToast] = useState({
-  message: "",
-  type: "success",
-});
+  const [importing, setImporting] = useState(false);
+  const [toast, setToast] = useState({
+    message: "",
+    type: "success",
+  });
 
-function showToast(message, type = "success") {
-  setToast({ message, type });
-}
-
-function closeToast() {
-  setToast({ message: "", type: "success" });
-}
-
-async function handleImport(event) {
-  const file = event.target.files?.[0];
-
-  if (!file) return;
-
-  setImporting(true);
-  setBackupMessage("");
-
-  try {
-    const result = await importScenarios(file);
-    loadScenarios();
-showToast(`Imported ${result.added} new scenarios successfully.`);  } catch (error) {
-showToast(error.message || "Could not import this file.", "error");  } finally {
-    setImporting(false);
-    event.target.value = "";
+  function showToast(message, type = "success") {
+    setToast({ message, type });
   }
-}
+
+  function closeToast() {
+    setToast({ message: "", type: "success" });
+  }
 
   function loadScenarios() {
     try {
       const saved = JSON.parse(
         localStorage.getItem("parallelMeScenarios") || "[]"
       );
+
       setScenarios(Array.isArray(saved) ? saved : []);
     } catch {
       setScenarios([]);
@@ -56,6 +62,26 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
   useEffect(() => {
     loadScenarios();
   }, []);
+
+  async function handleImport(event) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    setImporting(true);
+    setBackupMessage("");
+
+    try {
+      const result = await importScenarios(file);
+      loadScenarios();
+      showToast(`Imported ${result.added} new scenarios successfully.`);
+    } catch (error) {
+      showToast(error.message || "Could not import this file.", "error");
+    } finally {
+      setImporting(false);
+      event.target.value = "";
+    }
+  }
 
   function deleteScenario(id) {
     const confirmed = window.confirm(
@@ -95,7 +121,6 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
       )
     : 0;
 
-    
   const metricNames = [
     "knowledge",
     "energy",
@@ -109,10 +134,7 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
     const scores = metricNames.map((metric) =>
       Math.max(
         0,
-        Math.min(
-          100,
-          Number(scenario.results?.[metric]) || 0
-        )
+        Math.min(100, Number(scenario.results?.[metric]) || 0)
       )
     );
 
@@ -142,12 +164,12 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
     : null;
 
   const metricOverview = [
-    { name: "Knowledge", key: "knowledge", icon: "🧠" },
-    { name: "Energy", key: "energy", icon: "⚡" },
-    { name: "Happiness", key: "happiness", icon: "😊" },
-    { name: "Health", key: "health", icon: "💚" },
-    { name: "Productivity", key: "productivity", icon: "🎯" },
-    { name: "Career", key: "career", icon: "🚀" },
+    { name: "Knowledge", key: "knowledge", icon: Brain },
+    { name: "Energy", key: "energy", icon: Zap },
+    { name: "Happiness", key: "happiness", icon: Smile },
+    { name: "Health", key: "health", icon: HeartPulse },
+    { name: "Productivity", key: "productivity", icon: Target },
+    { name: "Career", key: "career", icon: BriefcaseBusiness },
   ];
 
   const averageByMetric = metricOverview.map((metric) => ({
@@ -161,9 +183,7 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
                 0,
                 Math.min(
                   100,
-                  Number(
-                    scenario.results?.[metric.key]
-                  ) || 0
+                  Number(scenario.results?.[metric.key]) || 0
                 )
               ),
             0
@@ -171,7 +191,6 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
         )
       : 0,
   }));
-
 
   const filteredScenarios = scenarios
     .filter((scenario) =>
@@ -183,8 +202,9 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
       const productivity = scenario.results?.productivity || 0;
 
       if (filterBy === "high") return productivity >= 70;
-      if (filterBy === "medium")
+      if (filterBy === "medium") {
         return productivity >= 40 && productivity < 70;
+      }
       if (filterBy === "low") return productivity < 40;
 
       return true;
@@ -205,116 +225,122 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
     });
 
   return (
-    
     <section className="dashboard-page">
       <div className="dashboard-heading">
-        <span className="badge">✦ YOUR PERSONAL SPACE</span>
+        <span className="badge">
+          <Sparkles className="ui-icon" aria-hidden="true" />
+          YOUR PERSONAL SPACE
+        </span>
+
         <h1>
           Your <span>Dashboard</span>
         </h1>
+
         <p>Explore the different futures you have imagined.</p>
       </div>
 
       <div className="dashboard-stats">
         <article className="dashboard-stat">
-          <span>🪐</span>
+          <span><Orbit aria-hidden="true" /></span>
           <p>Total Scenarios</p>
           <strong>{scenarios.length}</strong>
         </article>
 
         <article className="dashboard-stat">
-          <span>🎯</span>
+          <span><Target aria-hidden="true" /></span>
           <p>Best Productivity</p>
           <strong>{bestProductivity}<small>/100</small></strong>
         </article>
 
         <article className="dashboard-stat">
-          <span>😊</span>
+          <span><Smile aria-hidden="true" /></span>
           <p>Average Happiness</p>
           <strong>{averageHappiness}<small>/100</small></strong>
         </article>
 
-        
-  <article className="dashboard-stat">
-    <span>📊</span>
-    <p>Overall Average</p>
-    <strong>
-      {overallAverage}<small>/100</small>
-    </strong>
-  </article>
+        <article className="dashboard-stat">
+          <span><ChartNoAxesCombined aria-hidden="true" /></span>
+          <p>Overall Average</p>
+          <strong>{overallAverage}<small>/100</small></strong>
+        </article>
 
-  <article className="dashboard-stat">
-    <span>🏆</span>
-    <p>Best Future Score</p>
-    <strong>
-      {bestFuture
-        ? getScenarioAverage(bestFuture)
-        : 0}
-      <small>/100</small>
-    </strong>
-  </article>
+        <article className="dashboard-stat">
+          <span><Trophy aria-hidden="true" /></span>
+          <p>Best Future Score</p>
+          <strong>
+            {bestFuture ? getScenarioAverage(bestFuture) : 0}
+            <small>/100</small>
+          </strong>
+        </article>
       </div>
 
+      <section className="dashboard-insights">
+        <div className="insights-header">
+          <span className="badge">
+            <Sparkles className="ui-icon" aria-hidden="true" />
+            SMART INSIGHTS
+          </span>
 
-  <section className="dashboard-insights">
-    <div className="insights-header">
-      <span className="badge">✦ SMART INSIGHTS</span>
-      <h2>Your Future at a Glance</h2>
-      <p>
-        Discover how your saved future scenarios compare.
-      </p>
-    </div>
-
-    {scenarios.length === 0 ? (
-      <p>Create a scenario to unlock your analytics.</p>
-    ) : (
-      <>
-        <div className="best-future-card">
-          <span>🏆 Your Highest-Rated Future</span>
-          <h3>{bestFuture?.name || "Your Future"}</h3>
-          <p>
-            Average score:{" "}
-            <strong>
-              {bestFuture
-                ? getScenarioAverage(bestFuture)
-                : 0}/100
-            </strong>
-          </p>
+          <h2>Your Future at a Glance</h2>
+          <p>Discover how your saved future scenarios compare.</p>
         </div>
 
-        <div className="metric-overview-grid">
-          {averageByMetric.map((metric) => (
-            <article
-              className="metric-overview-card"
-              key={metric.key}
-            >
-              <div className="overview-card-top">
-                <span>{metric.icon}</span>
-                <strong>{metric.value}/100</strong>
-              </div>
+        {scenarios.length === 0 ? (
+          <p>Create a scenario to unlock your analytics.</p>
+        ) : (
+          <>
+            <div className="best-future-card">
+              <span>
+                <Trophy className="ui-icon" aria-hidden="true" />
+                Your Highest-Rated Future
+              </span>
 
-              <h3>{metric.name}</h3>
+              <h3>{bestFuture?.name || "Your Future"}</h3>
 
-              <div className="analytics-track">
-                <div
-                  className="analytics-fill"
-                  style={{
-                    width: `${metric.value}%`,
-                  }}
-                />
-              </div>
-            </article>
-          ))}
-        </div>
+              <p>
+                Average score:{" "}
+                <strong>
+                  {bestFuture ? getScenarioAverage(bestFuture) : 0}/100
+                </strong>
+              </p>
+            </div>
 
-        <p className="insights-note">
-          Scores are averages of your saved scenarios,
-          not predictions of real-life outcomes.
-        </p>
-      </>
-    )}
-  </section>
+            <div className="metric-overview-grid">
+              {averageByMetric.map((metric) => {
+                const MetricIcon = metric.icon;
 
+                return (
+                  <article
+                    className="metric-overview-card"
+                    key={metric.key}
+                  >
+                    <div className="overview-card-top">
+                      <span>
+                        <MetricIcon aria-hidden="true" />
+                      </span>
+                      <strong>{metric.value}/100</strong>
+                    </div>
+
+                    <h3>{metric.name}</h3>
+
+                    <div className="analytics-track">
+                      <div
+                        className="analytics-fill"
+                        style={{ width: `${metric.value}%` }}
+                      />
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            <p className="insights-note">
+              Scores are averages of your saved scenarios,
+              not predictions of real-life outcomes.
+            </p>
+          </>
+        )}
+      </section>
 
       <div className="saved-heading">
         <div>
@@ -322,121 +348,129 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
           <p>Search, organize, and explore your saved possibilities.</p>
         </div>
 
-{scenarios.length > 0 && (
-  <div className="analytics-card">
-    <div className="analytics-heading">
-      <span className="badge">✦ ANALYTICS</span>
-      <h2>Future Comparison</h2>
-      <p>Compare the results of your imagined futures.</p>
-    </div>
+        {scenarios.length > 0 && (
+          <div className="analytics-card">
+            <div className="analytics-heading">
+              <span className="badge">
+                <ChartNoAxesCombined className="ui-icon" aria-hidden="true" />
+                ANALYTICS
+              </span>
 
-    <div className="analytics-list">
-      {scenarios.map((scenario) => {
-        const metrics = [
-          {
-            name: "Productivity",
-            value: scenario.results?.productivity ?? 0,
-          },
-          {
-            name: "Happiness",
-            value: scenario.results?.happiness ?? 0,
-          },
-          {
-            name: "Knowledge",
-            value: scenario.results?.knowledge ?? 0,
-          },
-          {
-            name: "Health",
-            value: scenario.results?.health ?? 0,
-          },
-        ];
+              <h2>Future Comparison</h2>
+              <p>Compare the results of your imagined futures.</p>
+            </div>
 
-        return (
-          <div className="analytics-scenario" key={scenario.id}>
-            <h3>{scenario.name}</h3>
+            <div className="analytics-list">
+              {scenarios.map((scenario) => {
+                const metrics = [
+                  {
+                    name: "Productivity",
+                    value: scenario.results?.productivity ?? 0,
+                  },
+                  {
+                    name: "Happiness",
+                    value: scenario.results?.happiness ?? 0,
+                  },
+                  {
+                    name: "Knowledge",
+                    value: scenario.results?.knowledge ?? 0,
+                  },
+                  {
+                    name: "Health",
+                    value: scenario.results?.health ?? 0,
+                  },
+                ];
 
-            {metrics.map((metric) => {
-              const value = Math.max(
-                0,
-                Math.min(100, Number(metric.value) || 0)
-              );
+                return (
+                  <div className="analytics-scenario" key={scenario.id}>
+                    <h3>{scenario.name}</h3>
 
-              return (
-                <div className="analytics-metric" key={metric.name}>
-                  <div className="analytics-metric-label">
-                    <span>{metric.name}</span>
-                    <strong>{value}/100</strong>
+                    {metrics.map((metric) => {
+                      const value = Math.max(
+                        0,
+                        Math.min(100, Number(metric.value) || 0)
+                      );
+
+                      return (
+                        <div className="analytics-metric" key={metric.name}>
+                          <div className="analytics-metric-label">
+                            <span>{metric.name}</span>
+                            <strong>{value}/100</strong>
+                          </div>
+
+                          <div className="analytics-track">
+                            <div
+                              className="analytics-fill"
+                              style={{ width: `${value}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-
-                  <div className="analytics-track">
-                    <div
-                      className="analytics-fill"
-                      style={{ width: `${value}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        );
-      })}
-    </div>
-  </div>
-)}
+        )}
 
+        <div className="dashboard-actions">
+          <button
+            type="button"
+            className="backup-button"
+            onClick={() => {
+              try {
+                exportScenarios();
+                showToast("Backup exported successfully!");
+              } catch {
+                showToast("Could not export your scenarios.", "error");
+              }
+            }}
+          >
+            <Download className="ui-icon" aria-hidden="true" />
+            Export Backup
+          </button>
 
+          <label className="backup-button import-button">
+            <Upload className="ui-icon" aria-hidden="true" />
+            {importing ? "Importing..." : "Import Backup"}
 
-<div className="dashboard-actions">
-  <button
-    type="button"
-    className="backup-button"
-   onClick={() => {
-  try {
-    exportScenarios();
-    showToast("Backup exported successfully!");
-  } catch {
-    showToast("Could not export your scenarios.", "error");
-  }
-}}
-  >
-    📥 Export Backup
-  </button>
+            <input
+              type="file"
+              accept=".json,application/json"
+              onChange={handleImport}
+              disabled={importing}
+              hidden
+            />
+          </label>
 
-  <label className="backup-button import-button">
-    {importing ? "Importing..." : "📤 Import Backup"}
-    <input
-      type="file"
-      accept=".json,application/json"
-      onChange={handleImport}
-      disabled={importing}
-      hidden
-    />
-  </label>
+          <Link to="/create" className="primary-button">
+            <Plus className="ui-icon" aria-hidden="true" />
+            New Scenario
+          </Link>
+        </div>
 
-  <Link to="/create" className="primary-button">
-    + New Scenario
-  </Link>
-</div>
-
-{backupMessage && (
-  <p className="backup-message" role="status">
-    {backupMessage}
-  </p>
-)}
-
-        
+        {backupMessage && (
+          <p className="backup-message" role="status">
+            {backupMessage}
+          </p>
+        )}
       </div>
 
       {scenarios.length > 0 && (
         <div className="scenario-tools">
-          <input
-            type="search"
-            className="scenario-search"
-            placeholder="🔎 Search scenarios by name..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            aria-label="Search scenarios"
-          />
+          <div className="scenario-search-wrap">
+            <Search className="ui-icon" aria-hidden="true" />
+
+            <input
+              type="search"
+              className="scenario-search"
+              placeholder="Search scenarios by name..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              aria-label="Search scenarios"
+            />
+          </div>
 
           <select
             className="scenario-select"
@@ -465,19 +499,23 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
 
       {scenarios.length === 0 ? (
         <div className="empty-state">
-          <span>🌌</span>
+          <span><Orbit aria-hidden="true" /></span>
           <h3>Your story starts here</h3>
           <p>You haven't created any scenarios yet.</p>
+
           <Link to="/create" className="primary-button">
-            Create Your First Future ↗
+            Create Your First Future
+            <ArrowUpRight className="ui-icon" aria-hidden="true" />
           </Link>
         </div>
       ) : filteredScenarios.length === 0 ? (
         <div className="empty-state">
-          <span>🔍</span>
+          <span><Search aria-hidden="true" /></span>
           <h3>No scenarios found</h3>
           <p>Try another search or change your filters.</p>
+
           <button
+            type="button"
             className="primary-button"
             onClick={() => {
               setSearch("");
@@ -485,7 +523,7 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
               setSortBy("newest");
             }}
           >
-            Clear Search & Filters
+            Clear Search &amp; Filters
           </button>
         </div>
       ) : (
@@ -498,15 +536,18 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
             {filteredScenarios.map((scenario) => (
               <article className="saved-card" key={scenario.id}>
                 <div className="saved-card-top">
-                  <span className="saved-icon">✦</span>
+                  <span className="saved-icon">
+                    <Sparkles aria-hidden="true" />
+                  </span>
 
                   <button
+                    type="button"
                     className="delete-btn"
                     onClick={() => deleteScenario(scenario.id)}
                     title="Delete scenario"
                     aria-label={`Delete ${scenario.name}`}
                   >
-                    <span>🗑️</span>
+                    <Trash2 className="ui-icon" aria-hidden="true" />
                     Delete
                   </button>
                 </div>
@@ -559,7 +600,8 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
                 </div>
 
                 <Link to="/compare" className="saved-link">
-                  Compare futures ↗
+                  Compare futures
+                  <ArrowUpRight className="ui-icon" aria-hidden="true" />
                 </Link>
               </article>
             ))}
@@ -567,15 +609,13 @@ showToast(error.message || "Could not import this file.", "error");  } finally {
         </>
       )}
 
-  <Toast
-  message={toast.message}
-  type={toast.type}
-  onClose={closeToast}
-/>
-
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={closeToast}
+      />
     </section>
   );
-
 }
 
 export default Dashboard;

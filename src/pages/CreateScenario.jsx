@@ -1,24 +1,67 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  BookOpen,
+  Moon,
+  Activity,
+  Users,
+  BriefcaseBusiness,
+  Zap,
+  Smile,
+  HeartPulse,
+  Target,
+  Rocket,
+  Sparkles,
+  ArrowUpRight,
+} from "lucide-react";
 import { calculateScenario } from "../utils/calculations";
 import "../index.css";
 
 const activities = [
-  { key: "study", label: "Study", icon: "📚", description: "Learning and studying", max: 12 },
-  { key: "sleep", label: "Sleep", icon: "🌙", description: "Hours of sleep", max: 12 },
-  { key: "exercise", label: "Exercise", icon: "🏃", description: "Physical activity", max: 5 },
-  { key: "social", label: "Social Life", icon: "🫂", description: "Friends and family", max: 8 },
-  { key: "work", label: "Work", icon: "💼", description: "Work or projects", max: 12 },
+  {
+    key: "study",
+    label: "Study",
+    icon: BookOpen,
+    description: "Learning and studying",
+    max: 12,
+  },
+  {
+    key: "sleep",
+    label: "Sleep",
+    icon: Moon,
+    description: "Hours of sleep",
+    max: 12,
+  },
+  {
+    key: "exercise",
+    label: "Exercise",
+    icon: Activity,
+    description: "Physical activity",
+    max: 5,
+  },
+  {
+    key: "social",
+    label: "Social Life",
+    icon: Users,
+    description: "Friends and family",
+    max: 8,
+  },
+  {
+    key: "work",
+    label: "Work",
+    icon: BriefcaseBusiness,
+    description: "Work or projects",
+    max: 12,
+  },
 ];
 
 const metrics = [
-  { key: "knowledge", label: "Knowledge", icon: "📚" },
-  { key: "energy", label: "Energy", icon: "⚡" },
-  { key: "happiness", label: "Happiness", icon: "😊" },
-  { key: "health", label: "Health", icon: "💪" },
-  { key: "productivity", label: "Productivity", icon: "🎯" },
-  { key: "career", label: "Career Potential", icon: "🚀" },
+  { key: "knowledge", label: "Knowledge", icon: BookOpen },
+  { key: "energy", label: "Energy", icon: Zap },
+  { key: "happiness", label: "Happiness", icon: Smile },
+  { key: "health", label: "Health", icon: HeartPulse },
+  { key: "productivity", label: "Productivity", icon: Target },
+  { key: "career", label: "Career Potential", icon: Rocket },
 ];
 
 const initialValues = {
@@ -87,6 +130,7 @@ function CreateScenario() {
 
       const validScores = metrics.every((metric) => {
         const score = scores?.[metric.key];
+
         return (
           Number.isFinite(score) &&
           score >= 0 &&
@@ -149,10 +193,15 @@ function CreateScenario() {
   return (
     <section className="scenario-page">
       <div className="scenario-heading">
-        <span className="badge">✦ DESIGN YOUR POSSIBILITIES</span>
+        <span className="badge">
+          <Sparkles className="ui-icon" aria-hidden="true" />
+          DESIGN YOUR POSSIBILITIES
+        </span>
+
         <h1>
           Create Your <span>Future</span>
         </h1>
+
         <p>
           Small choices can create different paths.
           Build a daily routine and explore your possibilities.
@@ -184,48 +233,53 @@ function CreateScenario() {
             <p>How many hours do you spend on each activity?</p>
           </div>
 
-          <span className="hours-total">
-            {totalHours} / 24 hrs
-          </span>
+          <span className="hours-total">{totalHours} / 24 hrs</span>
         </div>
 
         <div className="activity-list">
-          {activities.map((activity) => (
-            <div className="activity-item" key={activity.key}>
-              <div className="activity-top">
-                <div className="activity-title">
-                  <span className="activity-icon">{activity.icon}</span>
-                  <div>
-                    <h3>{activity.label}</h3>
-                    <p>{activity.description}</p>
+          {activities.map((activity) => {
+            const ActivityIcon = activity.icon;
+
+            return (
+              <div className="activity-item" key={activity.key}>
+                <div className="activity-top">
+                  <div className="activity-title">
+                    <span className="activity-icon">
+                      <ActivityIcon aria-hidden="true" />
+                    </span>
+
+                    <div>
+                      <h3>{activity.label}</h3>
+                      <p>{activity.description}</p>
+                    </div>
                   </div>
+
+                  <strong className="activity-value">
+                    {values[activity.key]}{" "}
+                    {values[activity.key] === 1 ? "hour" : "hours"}
+                  </strong>
                 </div>
 
-                <strong className="activity-value">
-                  {values[activity.key]}{" "}
-                  {values[activity.key] === 1 ? "hour" : "hours"}
-                </strong>
-              </div>
+                <input
+                  className="activity-slider"
+                  type="range"
+                  min="0"
+                  max={activity.max}
+                  step="1"
+                  value={values[activity.key]}
+                  onChange={(event) =>
+                    handleChange(activity.key, event.target.value)
+                  }
+                  aria-label={activity.label + " hours"}
+                />
 
-              <input
-                className="activity-slider"
-                type="range"
-                min="0"
-                max={activity.max}
-                step="1"
-                value={values[activity.key]}
-                onChange={(event) =>
-                  handleChange(activity.key, event.target.value)
-                }
-                aria-label={activity.label + " hours"}
-              />
-
-              <div className="slider-labels">
-                <span>0 hours</span>
-                <span>{activity.max} hours</span>
+                <div className="slider-labels">
+                  <span>0 hours</span>
+                  <span>{activity.max} hours</span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div
@@ -237,6 +291,7 @@ function CreateScenario() {
               ? `${24 - totalHours} hours remaining in your day.`
               : `${totalHours - 24} hours over the daily limit.`}
           </p>
+
           <span className="hours-total">
             {Math.round((totalHours / 24) * 100)}% allocated
           </span>
@@ -263,15 +318,21 @@ function CreateScenario() {
           type="submit"
           disabled={totalHours > 24}
         >
-          Generate My Future ↗
+          Generate My Future
+          <ArrowUpRight className="ui-icon" aria-hidden="true" />
         </button>
       </form>
 
       {result && (
         <section className="results-section">
           <div className="results-heading">
-            <span className="badge">YOUR SIMULATED RESULTS</span>
+            <span className="badge">
+              <Sparkles className="ui-icon" aria-hidden="true" />
+              YOUR SIMULATED RESULTS
+            </span>
+
             <h2>{result.name}</h2>
+
             <p>
               These scores are illustrative estimates based on your selected
               routine, not scientific predictions.
@@ -279,31 +340,37 @@ function CreateScenario() {
           </div>
 
           <div className="results-grid">
-            {metrics.map((metric) => (
-              <article className="result-card" key={metric.key}>
-                <span className="result-icon">{metric.icon}</span>
-                <p>{metric.label}</p>
-                <strong>{result.results[metric.key]}</strong>
+            {metrics.map((metric) => {
+              const MetricIcon = metric.icon;
+              const score = result.results[metric.key];
 
-                <div
-                  className="progress-track"
-                  role="progressbar"
-                  aria-label={metric.label}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={result.results[metric.key]}
-                >
+              return (
+                <article className="result-card" key={metric.key}>
+                  <span className="result-icon">
+                    <MetricIcon aria-hidden="true" />
+                  </span>
+
+                  <p>{metric.label}</p>
+                  <strong>{score}</strong>
+
                   <div
-                    className="progress-fill"
-                    style={{
-                      width: `${result.results[metric.key]}%`,
-                    }}
-                  />
-                </div>
+                    className="progress-track"
+                    role="progressbar"
+                    aria-label={metric.label}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={score}
+                  >
+                    <div
+                      className="progress-fill"
+                      style={{ width: `${score}%` }}
+                    />
+                  </div>
 
-                <small>out of 100</small>
-              </article>
-            ))}
+                  <small>out of 100</small>
+                </article>
+              );
+            })}
           </div>
 
           <div className="result-actions">
@@ -316,7 +383,8 @@ function CreateScenario() {
             </button>
 
             <Link to="/dashboard" className="primary-button">
-              View Dashboard ↗
+              View Dashboard
+              <ArrowUpRight className="ui-icon" aria-hidden="true" />
             </Link>
           </div>
         </section>

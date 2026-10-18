@@ -1,34 +1,63 @@
 import { useState, useEffect } from "react";
+import {
+  Sun,
+  Moon,
+  Sparkles,
+  ArrowUpRight,
+  GitCompareArrows,
+  CircleDot,
+  Infinity as InfinityIcon,
+} from "lucide-react";
+
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Compare from "./pages/Compare";
 import Dashboard from "./pages/Dashboard";
 import CreateScenario from "./pages/CreateScenario";
+
 import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
 
-function Navbar({ theme, onToggleTheme }) {  return (
+function Navbar({ theme, onToggleTheme }) {
+  return (
     <nav className="navbar">
-      <Link to="/" className="logo">Parallel<span>Me.</span></Link>
-      
-<div className="links">
-  <Link to="/">Home</Link>
-  <Link to="/dashboard">Dashboard</Link>
-  <Link to="/create">Create</Link>
-  <Link to="/compare">Compare</Link>
-  <Link to="/about">About</Link>
-  <Link to="/profile">Profile</Link>
-</div>
-<button
-  type="button"
-  className="theme-toggle"
-  onClick={onToggleTheme}
-  aria-label="Toggle color theme"
-  title="Toggle dark and light mode"
->
-  {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
-</button>
-      <Link to="/create" className="nav-button">Start Exploring ↗</Link>
+      <Link to="/" className="logo">
+        Parallel<span>Me.</span>
+      </Link>
+
+      <div className="links">
+        <Link to="/">Home</Link>
+        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/create">Create</Link>
+        <Link to="/compare">Compare</Link>
+        <Link to="/about">About</Link>
+        <Link to="/profile">Profile</Link>
+      </div>
+
+      <button
+        type="button"
+        className="theme-toggle"
+        onClick={onToggleTheme}
+        aria-label="Toggle color theme"
+        title="Toggle dark and light mode"
+      >
+        {theme === "dark" ? (
+          <>
+            <Sun className="ui-icon" aria-hidden="true" />
+            Light Mode
+          </>
+        ) : (
+          <>
+            <Moon className="ui-icon" aria-hidden="true" />
+            Dark Mode
+          </>
+        )}
+      </button>
+
+      <Link to="/create" className="nav-button">
+        Start Exploring
+        <ArrowUpRight className="ui-icon" aria-hidden="true" />
+      </Link>
     </nav>
   );
 }
@@ -36,7 +65,9 @@ function Navbar({ theme, onToggleTheme }) {  return (
 function Footer() {
   return (
     <footer>
-      <h2>Parallel<span>Me.</span></h2>
+      <h2>
+        Parallel<span>Me.</span>
+      </h2>
       <p>Explore the choices that shape your future.</p>
       <small>© 2026 Parallel Me. Your future, your choices.</small>
     </footer>
@@ -47,22 +78,47 @@ function Home() {
   return (
     <>
       <section className="hero">
-        <div className="badge">✦ YOUR LIFE. INFINITE POSSIBILITIES.</div>
-        <h1>What if you chose<br />a <span>different future?</span></h1>
+        <div className="badge">
+          <Sparkles className="ui-icon" aria-hidden="true" />
+          YOUR LIFE. INFINITE POSSIBILITIES.
+        </div>
+
+        <h1>
+          What if you chose
+          <br />
+          a <span>different future?</span>
+        </h1>
+
         <p className="hero-text">
           Every decision creates a different version of you.
           Explore your possibilities, compare your paths, and discover
           the future you could build.
         </p>
+
         <div className="hero-buttons">
-          <Link to="/create" className="primary-button">Create Your Future ↗</Link>
-          <Link to="/compare" className="secondary-button">Compare Scenarios</Link>
+          <Link to="/create" className="primary-button">
+            Create Your Future
+            <ArrowUpRight className="ui-icon" aria-hidden="true" />
+          </Link>
+
+          <Link to="/compare" className="secondary-button">
+            Compare Scenarios
+          </Link>
         </div>
 
         <div className="stats">
-          <div><strong>∞</strong><span>Possible Futures</span></div>
-          <div><strong>6</strong><span>Life Dimensions</span></div>
-          <div><strong>1</strong><span>You in Control</span></div>
+          <div>
+            <strong>∞</strong>
+            <span>Possible Futures</span>
+          </div>
+          <div>
+            <strong>6</strong>
+            <span>Life Dimensions</span>
+          </div>
+          <div>
+            <strong>1</strong>
+            <span>You in Control</span>
+          </div>
         </div>
       </section>
 
@@ -75,22 +131,48 @@ function Home() {
 
         <div className="cards">
           <article className="feature-card">
-            <div className="feature-icon">◈</div>
+            <div className="feature-icon">
+              <Sparkles aria-hidden="true" />
+            </div>
             <h3>Build Your Scenarios</h3>
-            <p>Design different daily routines and explore how your choices might shape your future.</p>
-            <Link to="/create">Create a scenario ↗</Link>
+            <p>
+              Design different daily routines and explore how your choices
+              might shape your future.
+            </p>
+            <Link to="/create">
+              Create a scenario
+              <ArrowUpRight className="ui-icon" aria-hidden="true" />
+            </Link>
           </article>
+
           <article className="feature-card">
-            <div className="feature-icon">⇄</div>
+            <div className="feature-icon">
+              <GitCompareArrows aria-hidden="true" />
+            </div>
             <h3>Compare Your Paths</h3>
-            <p>Compare study, sleep, exercise, and social time across different lifestyles.</p>
-            <Link to="/compare">Compare futures ↗</Link>
+            <p>
+              Compare study, sleep, exercise, and social time across
+              different lifestyles.
+            </p>
+            <Link to="/compare">
+              Compare futures
+              <ArrowUpRight className="ui-icon" aria-hidden="true" />
+            </Link>
           </article>
+
           <article className="feature-card">
-            <div className="feature-icon">◎</div>
+            <div className="feature-icon">
+              <CircleDot aria-hidden="true" />
+            </div>
             <h3>Track Your Progress</h3>
-            <p>Keep your scenarios organized and see how your priorities change over time.</p>
-            <Link to="/dashboard">Open dashboard ↗</Link>
+            <p>
+              Keep your scenarios organized and see how your priorities
+              change over time.
+            </p>
+            <Link to="/dashboard">
+              Open dashboard
+              <ArrowUpRight className="ui-icon" aria-hidden="true" />
+            </Link>
           </article>
         </div>
       </section>
@@ -101,14 +183,21 @@ function Home() {
 function Page({ title, description }) {
   return (
     <section className="inner-page">
-      <span className="badge">PARALLEL ME / EXPLORE</span>
+      <span className="badge">
+        <Sparkles className="ui-icon" aria-hidden="true" />
+        PARALLEL ME / EXPLORE
+      </span>
+
       <h1>{title}</h1>
       <p>{description}</p>
-      <Link to="/create" className="primary-button">Create a Scenario ↗</Link>
+
+      <Link to="/create" className="primary-button">
+        Create a Scenario
+        <ArrowUpRight className="ui-icon" aria-hidden="true" />
+      </Link>
     </section>
   );
 }
-
 
 function App() {
   const [theme, setTheme] = useState(
@@ -124,21 +213,30 @@ function App() {
   };
 
   return (
-
     <HashRouter>
-<div className={`app ${theme}-theme`}>
-    <Navbar theme={theme} onToggleTheme={toggleTheme} />
+      <div className={`app ${theme}-theme`}>
+        <Navbar theme={theme} onToggleTheme={toggleTheme} />
+
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/create" element={<CreateScenario />} />           
-          <Route path="/compare" element={<Compare />} />  
-          <Route path="/about" element={<About />} />  
-          <Route path="/profile" element={<Profile />} />       
-          <Route path="*" element={<Page title="Page Not Found" description="This path does not exist. Let's explore another future." />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/create" element={<CreateScenario />} />
+            <Route path="/compare" element={<Compare />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="*"
+              element={
+                <Page
+                  title="Page Not Found"
+                  description="This path does not exist. Let's explore another future."
+                />
+              }
+            />
           </Routes>
         </main>
+
         <Footer />
       </div>
     </HashRouter>

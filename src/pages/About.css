@@ -118,3 +118,41 @@
     padding: 35px 10px;
   }
 }
+
+.about-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke-width: 1.8;
+}
+
+.about-tag,
+.about-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.about-page .ui-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .about-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .about-page .ui-icon {
+    width: 17px;
+    height: 17px;
+  }
+}

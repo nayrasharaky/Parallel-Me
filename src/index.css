@@ -1806,3 +1806,118 @@ p {
     color: #56358d;
   }
 }
+/* Consistent SVG icons on desktop and mobile */
+.ui-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  stroke-width: 1.8;
+}
+
+.badge,
+.theme-toggle,
+.primary-button,
+.nav-button,
+.feature-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.dashboard-stat > span,
+.metric-overview-card .overview-card-top > span,
+.best-future-card > span,
+.empty-state > span,
+.saved-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-stat > span svg {
+  width: 25px;
+  height: 25px;
+}
+
+.metric-overview-card .overview-card-top > span svg {
+  width: 22px;
+  height: 22px;
+}
+
+.best-future-card > span svg,
+.empty-state > span svg,
+.saved-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.scenario-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scenario-search-wrap > svg {
+  flex-shrink: 0;
+}
+
+.scenario-search-wrap .scenario-search {
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .dashboard-stat > span svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .metric-overview-card .overview-card-top > span svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+.activity-icon,
+.result-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+
+.result-icon svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.8;
+}
+
+@media (max-width: 768px) {
+  .activity-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .result-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}

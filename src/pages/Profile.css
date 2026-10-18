@@ -366,3 +366,84 @@
     transition: none;
   }
 }
+.profile-page .stat-icon,
+.profile-page .profile-avatar,
+.profile-page .scenario-symbol,
+.profile-page .profile-empty-icon,
+.profile-page .profile-highlight-label,
+.profile-page .profile-tag,
+.profile-page .profile-edit-btn,
+.profile-page .profile-save-btn,
+.profile-page .profile-create-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.profile-page .stat-icon svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.8;
+}
+
+.profile-page .profile-avatar svg {
+  width: 32px;
+  height: 32px;
+}
+
+.profile-page .scenario-symbol svg,
+.profile-page .profile-empty-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.profile-page .ui-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .profile-page .stat-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .profile-page .profile-avatar svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .profile-page .ui-icon {
+    width: 17px;
+    height: 17px;
+  }
+}
+/* Fix profile avatar icon and text alignment */
+.profile-page .profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+}
+
+.profile-page .profile-avatar svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.profile-page .profile-avatar + div {
+  min-width: 0;
+}
+
+.profile-page .profile-avatar + div h1,
+.profile-page .profile-avatar + div h2,
+.profile-page .profile-avatar + div p {
+  overflow-wrap: anywhere;
+}

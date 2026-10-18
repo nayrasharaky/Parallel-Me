@@ -1,6 +1,19 @@
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  Orbit,
+  Zap,
+  Heart,
+  ChartNoAxesCombined,
+  Trophy,
+  Pencil,
+  Sparkles,
+  ArrowRight,
+  Plus,
+  UserRound,
+  Save,
+  X,
+} from "lucide-react";
 import "./Profile.css";
 
 const metrics = [
@@ -57,8 +70,8 @@ export default function Profile() {
     }
   }, []);
 
-  const saveProfile = (e) => {
-    e.preventDefault();
+  const saveProfile = (event) => {
+    event.preventDefault();
 
     const cleanName = name.trim();
 
@@ -127,21 +140,32 @@ export default function Profile() {
 
     if (!confirmed) return;
 
-    localStorage.removeItem("parallelMeProfile");
-    setName("");
-    setSavedName("");
-    setEditing(false);
-    setMessage("Profile name removed. Your saved futures are safe.");
+    try {
+      localStorage.removeItem("parallelMeProfile");
+      setName("");
+      setSavedName("");
+      setEditing(false);
+      setMessage("Profile name removed. Your saved futures are safe.");
+    } catch {
+      setMessage("Unable to remove your profile. Please try again.");
+    }
   };
 
   return (
     <main className="profile-page">
       <section className="profile-hero">
         <div className="profile-avatar">
-          {(savedName || "U").charAt(0).toUpperCase()}
+          {savedName ? (
+            savedName.charAt(0).toUpperCase()
+          ) : (
+            <UserRound aria-hidden="true" />
+          )}
         </div>
 
-        <span className="profile-tag">YOUR PERSONAL SPACE</span>
+        <span className="profile-tag">
+          <Sparkles className="ui-icon" aria-hidden="true" />
+          YOUR PERSONAL SPACE
+        </span>
 
         <h1>{savedName || "Your Profile"}</h1>
 
@@ -160,7 +184,17 @@ export default function Profile() {
               setMessage("");
             }}
           >
-            {editing ? "Cancel Editing" : "✏️ Edit Profile"}
+            {editing ? (
+              <>
+                <X className="ui-icon" aria-hidden="true" />
+                Cancel Editing
+              </>
+            ) : (
+              <>
+                <Pencil className="ui-icon" aria-hidden="true" />
+                Edit Profile
+              </>
+            )}
           </button>
 
           {savedName && (
@@ -181,13 +215,14 @@ export default function Profile() {
             <input
               id="profile-name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(event) => setName(event.target.value)}
               placeholder="Enter your name"
               maxLength={50}
               required
             />
 
             <button type="submit" className="profile-save-btn">
+              <Save className="ui-icon" aria-hidden="true" />
               Save Changes
             </button>
           </form>
@@ -202,25 +237,33 @@ export default function Profile() {
 
       <section className="profile-stats">
         <article className="profile-stat">
-          <span className="stat-icon">🌌</span>
+          <span className="stat-icon">
+            <Orbit aria-hidden="true" />
+          </span>
           <p>Saved Futures</p>
           <h2>{scenarios.length}</h2>
         </article>
 
         <article className="profile-stat">
-          <span className="stat-icon">⚡</span>
+          <span className="stat-icon">
+            <Zap aria-hidden="true" />
+          </span>
           <p>Best Productivity</p>
           <h2>{bestProductivity}%</h2>
         </article>
 
         <article className="profile-stat">
-          <span className="stat-icon">💜</span>
+          <span className="stat-icon">
+            <Heart aria-hidden="true" />
+          </span>
           <p>Average Happiness</p>
           <h2>{average("happiness")}%</h2>
         </article>
 
         <article className="profile-stat">
-          <span className="stat-icon">📊</span>
+          <span className="stat-icon">
+            <ChartNoAxesCombined aria-hidden="true" />
+          </span>
           <p>Overall Average</p>
           <h2>{overallAverage}%</h2>
         </article>
@@ -228,14 +271,21 @@ export default function Profile() {
 
       {bestFuture && (
         <section className="profile-best-future">
-          <span>🏆 YOUR TOP-RATED FUTURE</span>
+          <span className="profile-highlight-label">
+            <Trophy className="ui-icon" aria-hidden="true" />
+            YOUR TOP-RATED FUTURE
+          </span>
+
           <h2>{bestFuture.name || "Untitled Future"}</h2>
+
           <p>
             Average score:{" "}
             <strong>{getScenarioAverage(bestFuture)}/100</strong>
           </p>
+
           <Link to="/compare" className="profile-create-link">
-            Compare Futures →
+            Compare Futures
+            <ArrowRight className="ui-icon" aria-hidden="true" />
           </Link>
         </section>
       )}
@@ -243,21 +293,32 @@ export default function Profile() {
       <section className="profile-scenarios">
         <div className="profile-section-heading">
           <div>
-            <span className="profile-tag">YOUR JOURNEY</span>
+            <span className="profile-tag">
+              <Sparkles className="ui-icon" aria-hidden="true" />
+              YOUR JOURNEY
+            </span>
+
             <h2>Your Saved Futures</h2>
           </div>
 
           <Link to="/create" className="profile-create-link">
-            + New Future
+            <Plus className="ui-icon" aria-hidden="true" />
+            New Future
           </Link>
         </div>
 
         {scenarios.length === 0 ? (
           <div className="profile-empty">
-            <span>✨</span>
+            <span className="profile-empty-icon">
+              <Sparkles aria-hidden="true" />
+            </span>
+
             <h3>Your journey starts here</h3>
+
             <p>Create your first future and it will appear here.</p>
+
             <Link to="/create" className="profile-create-link">
+              <Plus className="ui-icon" aria-hidden="true" />
               Create Your First Future
             </Link>
           </div>
@@ -268,7 +329,9 @@ export default function Profile() {
                 className="profile-scenario"
                 key={scenario.id ?? `${scenario.name}-${index}`}
               >
-                <span className="scenario-symbol">✦</span>
+                <span className="scenario-symbol">
+                  <Sparkles aria-hidden="true" />
+                </span>
 
                 <h3>{scenario.name || "Untitled Future"}</h3>
 
@@ -317,6 +380,7 @@ export default function Profile() {
                 <div className="profile-scenario-actions">
                   <Link to="/compare" className="profile-create-link">
                     Compare
+                    <ArrowRight className="ui-icon" aria-hidden="true" />
                   </Link>
                 </div>
               </article>
@@ -326,14 +390,21 @@ export default function Profile() {
       </section>
 
       <section className="profile-settings">
-        <span className="profile-tag">PREFERENCES</span>
+        <span className="profile-tag">
+          <Sparkles className="ui-icon" aria-hidden="true" />
+          PREFERENCES
+        </span>
+
         <h2>Profile & Settings</h2>
+
         <p>
           Your profile name is saved in this browser. Your futures are stored
           separately, so clearing your profile name does not delete them.
         </p>
+
         <Link to="/dashboard" className="profile-create-link">
-          Go to Dashboard →
+          Go to Dashboard
+          <ArrowRight className="ui-icon" aria-hidden="true" />
         </Link>
       </section>
     </main>

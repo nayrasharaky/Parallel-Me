@@ -1,6 +1,14 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  GitCompareArrows,
+  Sparkles,
+  Plus,
+  ArrowUpRight,
+  ChartNoAxesCombined,
+  Trophy,
+  Scale,
+} from "lucide-react";
 import "./Compare.css";
 
 const metrics = [
@@ -105,8 +113,13 @@ export default function Compare() {
   return (
     <main className="compare-page">
       <div className="compare-header">
-        <span className="compare-tag">PARALLEL ME</span>
+        <span className="compare-tag">
+          <Sparkles className="ui-icon" aria-hidden="true" />
+          PARALLEL ME
+        </span>
+
         <h1>Compare Your Futures</h1>
+
         <p>
           Explore two possible versions of your future and discover
           how your daily choices may affect your results.
@@ -115,12 +128,19 @@ export default function Compare() {
 
       {scenarios.length < 2 ? (
         <div className="compare-empty">
+          <span className="compare-feature-icon">
+            <GitCompareArrows aria-hidden="true" />
+          </span>
+
           <h2>You need at least 2 scenarios</h2>
+
           <p>
             Create two different futures before comparing their results.
           </p>
+
           <Link to="/create" className="compare-create-btn">
-            + Create a Scenario
+            <Plus className="ui-icon" aria-hidden="true" />
+            Create a Scenario
           </Link>
         </div>
       ) : (
@@ -128,6 +148,7 @@ export default function Compare() {
           <div className="compare-selectors">
             <div className="compare-select-card">
               <label htmlFor="first-future">First Future</label>
+
               <select
                 id="first-future"
                 value={firstId}
@@ -149,10 +170,14 @@ export default function Compare() {
               </select>
             </div>
 
-            <div className="compare-vs">VS</div>
+            <div className="compare-vs">
+              <GitCompareArrows aria-hidden="true" />
+              <span>VS</span>
+            </div>
 
             <div className="compare-select-card">
               <label htmlFor="second-future">Second Future</label>
+
               <select
                 id="second-future"
                 value={secondId}
@@ -177,7 +202,12 @@ export default function Compare() {
 
           {!first || !second ? (
             <div className="compare-empty compare-hint">
+              <span className="compare-feature-icon">
+                <Scale aria-hidden="true" />
+              </span>
+
               <h2>Select two different futures</h2>
+
               <p>
                 Choose a scenario in each box to see the comparison,
                 scores, and overall summary.
@@ -189,8 +219,10 @@ export default function Compare() {
                 <div>
                   <span className="future-label">FIRST FUTURE</span>
                   <h2>{first.name}</h2>
+
                   <p className="future-average">
-                    Average score: <strong>{average(first)}/100</strong>
+                    Average score:{" "}
+                    <strong>{average(first)}/100</strong>
                   </p>
                 </div>
 
@@ -199,14 +231,22 @@ export default function Compare() {
                 <div>
                   <span className="future-label">SECOND FUTURE</span>
                   <h2>{second.name}</h2>
+
                   <p className="future-average">
-                    Average score: <strong>{average(second)}/100</strong>
+                    Average score:{" "}
+                    <strong>{average(second)}/100</strong>
                   </p>
                 </div>
               </div>
 
               <div className="compare-summary">
-                <h3>Comparison Summary</h3>
+                <h3>
+                  <ChartNoAxesCombined
+                    className="ui-icon"
+                    aria-hidden="true"
+                  />
+                  Comparison Summary
+                </h3>
 
                 <div className="summary-score-grid">
                   <div className="summary-score">
@@ -218,9 +258,11 @@ export default function Compare() {
                   <div className="summary-score">
                     <span>Ties</span>
                     <strong>
-                      {comparisons.filter(
-                        (item) => item.winner === "tie"
-                      ).length}
+                      {
+                        comparisons.filter(
+                          (item) => item.winner === "tie"
+                        ).length
+                      }
                     </strong>
                     <small>equal metrics</small>
                   </div>
@@ -237,18 +279,22 @@ export default function Compare() {
                     ? "Both futures lead in the same number of metrics. Compare the individual scores to decide what matters most to you."
                     : firstWins > secondWins
                       ? `${first.name} leads in more metrics.`
-                      : `${second.name} leads in more metrics.`}
-                  {" "}These scores are illustrative estimates, not guaranteed
+                      : `${second.name} leads in more metrics.`}{" "}
+                  These scores are illustrative estimates, not guaranteed
                   predictions of real-life outcomes.
                 </p>
               </div>
 
-              <h3 className="metrics-heading">Metric-by-Metric Results</h3>
+              <h3 className="metrics-heading">
+                <Trophy className="ui-icon" aria-hidden="true" />
+                Metric-by-Metric Results
+              </h3>
 
               {comparisons.map((item) => (
                 <div className="metric-row" key={item.key}>
                   <div className="metric-label">
                     <strong>{item.label}</strong>
+
                     <span>
                       {item.firstScore}/100 — {item.secondScore}/100
                     </span>
@@ -258,6 +304,7 @@ export default function Compare() {
                     <span className="compare-score-name">
                       {first.name}
                     </span>
+
                     <div
                       className="metric-track"
                       role="progressbar"
@@ -271,6 +318,7 @@ export default function Compare() {
                         style={{ width: `${item.firstScore}%` }}
                       />
                     </div>
+
                     <strong>{item.firstScore}</strong>
                   </div>
 
@@ -278,6 +326,7 @@ export default function Compare() {
                     <span className="compare-score-name">
                       {second.name}
                     </span>
+
                     <div
                       className="metric-track"
                       role="progressbar"
@@ -291,23 +340,39 @@ export default function Compare() {
                         style={{ width: `${item.secondScore}%` }}
                       />
                     </div>
+
                     <strong>{item.secondScore}</strong>
                   </div>
 
                   <p className="metric-difference">
                     {item.winner === "tie"
                       ? "Both futures have the same score."
-                      : `${item.winner === "first" ? first.name : second.name} is ahead by ${item.difference} point${item.difference === 1 ? "" : "s"}.`}
+                      : `${
+                          item.winner === "first"
+                            ? first.name
+                            : second.name
+                        } is ahead by ${item.difference} point${
+                          item.difference === 1 ? "" : "s"
+                        }.`}
                   </p>
                 </div>
               ))}
 
               <div className="compare-actions">
                 <Link to="/create" className="compare-create-btn">
-                  + Create Another Scenario
+                  <Plus className="ui-icon" aria-hidden="true" />
+                  Create Another Scenario
                 </Link>
-                <Link to="/dashboard" className="compare-dashboard-btn">
+
+                <Link
+                  to="/dashboard"
+                  className="compare-dashboard-btn"
+                >
                   Back to Dashboard
+                  <ArrowUpRight
+                    className="ui-icon"
+                    aria-hidden="true"
+                  />
                 </Link>
               </div>
             </section>

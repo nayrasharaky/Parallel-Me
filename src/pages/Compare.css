@@ -561,3 +561,46 @@
   color: #302342;
   border-color: #d8c9e8;
 }
+.compare-tag,
+.compare-create-btn,
+.compare-dashboard-btn,
+.compare-summary h3,
+.metrics-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.compare-feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compare-feature-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.compare-vs svg {
+  width: 22px;
+  height: 22px;
+}
+
+.compare-page .ui-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .compare-feature-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .compare-page .ui-icon {
+    width: 17px;
+    height: 17px;
+  }
+}
