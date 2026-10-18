@@ -4,7 +4,7 @@ import About from "./pages/About";
 import Compare from "./pages/Compare";
 import Dashboard from "./pages/Dashboard";
 import CreateScenario from "./pages/CreateScenario";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
 
 function Navbar({ theme, onToggleTheme }) {  return (
@@ -125,9 +125,9 @@ function App() {
 
   return (
 
-    <BrowserRouter>
-      <div className={`app ${theme === "light" ? "light-theme" : ""}`}>
-  <Navbar theme={theme} onToggleTheme={toggleTheme} />
+    <HashRouter>
+<div className={`app ${theme}-theme`}>
+    <Navbar theme={theme} onToggleTheme={toggleTheme} />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -141,7 +141,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
