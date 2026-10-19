@@ -2,34 +2,34 @@
 import { useEffect } from "react";
 
 export default function Toast({ message, type = "success", onClose }) {
-  useEffect(() => {
+useEffect(() => {
     if (!message) return;
 
     const timer = setTimeout(() => {
-      onClose();
+    onClose();
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [message, onClose]);
+}, [message, onClose]);
 
-  if (!message) return null;
+if (!message) return null;
 
-  return (
+return (
     <div className={`toast-notification toast-${type}`} role="status">
-      <span className="toast-icon">
+    <span className="toast-icon">
         {type === "error" ? "⚠️" : "✓"}
-      </span>
+    </span>
 
-      <span>{message}</span>
+    <span>{message}</span>
 
-      <button
+    <button
         type="button"
         className="toast-close"
         onClick={onClose}
         aria-label="Close notification"
-      >
+    >
         ×
-      </button>
+    </button>
     </div>
-  );
+);
 }

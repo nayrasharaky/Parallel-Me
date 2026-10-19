@@ -1,384 +1,384 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  GitCompareArrows,
-  Sparkles,
-  Plus,
-  ArrowUpRight,
-  ChartNoAxesCombined,
-  Trophy,
-  Scale,
+GitCompareArrows,
+Sparkles,
+Plus,
+ArrowUpRight,
+ChartNoAxesCombined,
+Trophy,
+Scale,
 } from "lucide-react";
 import "./Compare.css";
 
 const metrics = [
-  ["knowledge", "Knowledge"],
-  ["energy", "Energy"],
-  ["happiness", "Happiness"],
-  ["health", "Health"],
-  ["productivity", "Productivity"],
-  ["career", "Career"],
+["knowledge", "Knowledge"],
+["energy", "Energy"],
+["happiness", "Happiness"],
+["health", "Health"],
+["productivity", "Productivity"],
+["career", "Career"],
 ];
 
 export default function Compare() {
-  const [scenarios, setScenarios] = useState([]);
-  const [firstId, setFirstId] = useState("");
-  const [secondId, setSecondId] = useState("");
+const [scenarios, setScenarios] = useState([]);
+const [firstId, setFirstId] = useState("");
+const [secondId, setSecondId] = useState("");
 
-  useEffect(() => {
+useEffect(() => {
     try {
-      const saved = JSON.parse(
+    const saved = JSON.parse(
         localStorage.getItem("parallelMeScenarios") || "[]"
-      );
+    );
 
-      setScenarios(Array.isArray(saved) ? saved : []);
+    setScenarios(Array.isArray(saved) ? saved : []);
     } catch {
-      setScenarios([]);
+    setScenarios([]);
     }
-  }, []);
+}, []);
 
-  const first = scenarios.find(
+const first = scenarios.find(
     (scenario) => String(scenario.id) === firstId
-  );
+);
 
-  const second = scenarios.find(
+const second = scenarios.find(
     (scenario) => String(scenario.id) === secondId
-  );
+);
 
-  const getScore = (scenario, key) => {
+const getScore = (scenario, key) => {
     const score = Number(scenario?.results?.[key] ?? 0);
 
     if (!Number.isFinite(score)) return 0;
 
     return Math.max(0, Math.min(100, score));
-  };
+};
 
-  const comparisons =
+const comparisons =
     first && second
-      ? metrics.map(([key, label]) => {
-          const firstScore = getScore(first, key);
-          const secondScore = getScore(second, key);
+    ? metrics.map(([key, label]) => {
+        const firstScore = getScore(first, key);
+        const secondScore = getScore(second, key);
 
-          return {
+        return {
             key,
             label,
             firstScore,
             secondScore,
             difference: Math.abs(firstScore - secondScore),
             winner:
-              firstScore === secondScore
+            firstScore === secondScore
                 ? "tie"
                 : firstScore > secondScore
-                  ? "first"
-                  : "second",
-          };
+                ? "first"
+                : "second",
+        };
         })
-      : [];
+    : [];
 
-  const firstWins = comparisons.filter(
+const firstWins = comparisons.filter(
     (item) => item.winner === "first"
-  ).length;
+).length;
 
-  const secondWins = comparisons.filter(
+const secondWins = comparisons.filter(
     (item) => item.winner === "second"
-  ).length;
+).length;
 
-  const average = (scenario) => {
+const average = (scenario) => {
     if (!scenario) return 0;
 
     const total = metrics.reduce(
-      (sum, [key]) => sum + getScore(scenario, key),
-      0
+    (sum, [key]) => sum + getScore(scenario, key),
+    0
     );
 
     return Math.round(total / metrics.length);
-  };
+};
 
-  const handleFirstChange = (value) => {
+const handleFirstChange = (value) => {
     setFirstId(value);
 
     if (value && value === secondId) {
-      setSecondId("");
+    setSecondId("");
     }
-  };
+};
 
-  const handleSecondChange = (value) => {
+const handleSecondChange = (value) => {
     setSecondId(value);
 
     if (value && value === firstId) {
-      setFirstId("");
+    setFirstId("");
     }
-  };
+};
 
-  return (
+return (
     <main className="compare-page">
-      <div className="compare-header">
+    <div className="compare-header">
         <span className="compare-tag">
-          <Sparkles className="ui-icon" aria-hidden="true" />
-          PARALLEL ME
+        <Sparkles className="ui-icon" aria-hidden="true" />
+        PARALLEL ME
         </span>
 
         <h1>Compare Your Futures</h1>
 
         <p>
-          Explore two possible versions of your future and discover
-          how your daily choices may affect your results.
+        Explore two possible versions of your future and discover
+        how your daily choices may affect your results.
         </p>
-      </div>
+    </div>
 
-      {scenarios.length < 2 ? (
+    {scenarios.length < 2 ? (
         <div className="compare-empty">
-          <span className="compare-feature-icon">
+        <span className="compare-feature-icon">
             <GitCompareArrows aria-hidden="true" />
-          </span>
+        </span>
 
-          <h2>You need at least 2 scenarios</h2>
+        <h2>You need at least 2 scenarios</h2>
 
-          <p>
+        <p>
             Create two different futures before comparing their results.
-          </p>
+        </p>
 
-          <Link to="/create" className="compare-create-btn">
+        <Link to="/create" className="compare-create-btn">
             <Plus className="ui-icon" aria-hidden="true" />
             Create a Scenario
-          </Link>
+        </Link>
         </div>
-      ) : (
+    ) : (
         <>
-          <div className="compare-selectors">
+        <div className="compare-selectors">
             <div className="compare-select-card">
-              <label htmlFor="first-future">First Future</label>
+            <label htmlFor="first-future">First Future</label>
 
-              <select
+            <select
                 id="first-future"
                 value={firstId}
                 onChange={(event) =>
-                  handleFirstChange(event.target.value)
+                handleFirstChange(event.target.value)
                 }
-              >
+            >
                 <option value="">Choose a scenario</option>
 
                 {scenarios.map((scenario) => (
-                  <option
+                <option
                     key={scenario.id}
                     value={String(scenario.id)}
                     disabled={String(scenario.id) === secondId}
-                  >
+                >
                     {scenario.name}
-                  </option>
+                </option>
                 ))}
-              </select>
+            </select>
             </div>
 
             <div className="compare-vs">
-              <GitCompareArrows aria-hidden="true" />
-              <span>VS</span>
+            <GitCompareArrows aria-hidden="true" />
+            <span>VS</span>
             </div>
 
             <div className="compare-select-card">
-              <label htmlFor="second-future">Second Future</label>
+            <label htmlFor="second-future">Second Future</label>
 
-              <select
+            <select
                 id="second-future"
                 value={secondId}
                 onChange={(event) =>
-                  handleSecondChange(event.target.value)
+                handleSecondChange(event.target.value)
                 }
-              >
+            >
                 <option value="">Choose a scenario</option>
 
                 {scenarios.map((scenario) => (
-                  <option
+                <option
                     key={scenario.id}
                     value={String(scenario.id)}
                     disabled={String(scenario.id) === firstId}
-                  >
+                >
                     {scenario.name}
-                  </option>
+                </option>
                 ))}
-              </select>
+            </select>
             </div>
-          </div>
+        </div>
 
-          {!first || !second ? (
+        {!first || !second ? (
             <div className="compare-empty compare-hint">
-              <span className="compare-feature-icon">
+            <span className="compare-feature-icon">
                 <Scale aria-hidden="true" />
-              </span>
+            </span>
 
-              <h2>Select two different futures</h2>
+            <h2>Select two different futures</h2>
 
-              <p>
+            <p>
                 Choose a scenario in each box to see the comparison,
                 scores, and overall summary.
-              </p>
+            </p>
             </div>
-          ) : (
+        ) : (
             <section className="comparison-results">
-              <div className="future-headings">
+            <div className="future-headings">
                 <div>
-                  <span className="future-label">FIRST FUTURE</span>
-                  <h2>{first.name}</h2>
+                <span className="future-label">FIRST FUTURE</span>
+                <h2>{first.name}</h2>
 
-                  <p className="future-average">
+                <p className="future-average">
                     Average score:{" "}
                     <strong>{average(first)}/100</strong>
-                  </p>
+                </p>
                 </div>
 
                 <span className="compare-vs">VS</span>
 
                 <div>
-                  <span className="future-label">SECOND FUTURE</span>
-                  <h2>{second.name}</h2>
+                <span className="future-label">SECOND FUTURE</span>
+                <h2>{second.name}</h2>
 
-                  <p className="future-average">
+                <p className="future-average">
                     Average score:{" "}
                     <strong>{average(second)}/100</strong>
-                  </p>
+                </p>
                 </div>
-              </div>
+            </div>
 
-              <div className="compare-summary">
+            <div className="compare-summary">
                 <h3>
-                  <ChartNoAxesCombined
+                <ChartNoAxesCombined
                     className="ui-icon"
                     aria-hidden="true"
-                  />
-                  Comparison Summary
+                />
+                Comparison Summary
                 </h3>
 
                 <div className="summary-score-grid">
-                  <div className="summary-score">
+                <div className="summary-score">
                     <span>{first.name}</span>
                     <strong>{firstWins}</strong>
                     <small>metrics ahead</small>
-                  </div>
+                </div>
 
-                  <div className="summary-score">
+                <div className="summary-score">
                     <span>Ties</span>
                     <strong>
-                      {
+                    {
                         comparisons.filter(
-                          (item) => item.winner === "tie"
+                        (item) => item.winner === "tie"
                         ).length
-                      }
+                    }
                     </strong>
                     <small>equal metrics</small>
-                  </div>
+                </div>
 
-                  <div className="summary-score">
+                <div className="summary-score">
                     <span>{second.name}</span>
                     <strong>{secondWins}</strong>
                     <small>metrics ahead</small>
-                  </div>
+                </div>
                 </div>
 
                 <p className="summary-message">
-                  {firstWins === secondWins
+                {firstWins === secondWins
                     ? "Both futures lead in the same number of metrics. Compare the individual scores to decide what matters most to you."
                     : firstWins > secondWins
-                      ? `${first.name} leads in more metrics.`
-                      : `${second.name} leads in more metrics.`}{" "}
-                  These scores are illustrative estimates, not guaranteed
-                  predictions of real-life outcomes.
+                    ? `${first.name} leads in more metrics.`
+                    : `${second.name} leads in more metrics.`}{" "}
+                These scores are illustrative estimates, not guaranteed
+                predictions of real-life outcomes.
                 </p>
-              </div>
+            </div>
 
-              <h3 className="metrics-heading">
+            <h3 className="metrics-heading">
                 <Trophy className="ui-icon" aria-hidden="true" />
                 Metric-by-Metric Results
-              </h3>
+            </h3>
 
-              {comparisons.map((item) => (
+            {comparisons.map((item) => (
                 <div className="metric-row" key={item.key}>
-                  <div className="metric-label">
+                <div className="metric-label">
                     <strong>{item.label}</strong>
 
                     <span>
-                      {item.firstScore}/100 — {item.secondScore}/100
+                    {item.firstScore}/100 — {item.secondScore}/100
                     </span>
-                  </div>
+                </div>
 
-                  <div className="compare-score-line">
+                <div className="compare-score-line">
                     <span className="compare-score-name">
-                      {first.name}
+                    {first.name}
                     </span>
 
                     <div
-                      className="metric-track"
-                      role="progressbar"
-                      aria-label={`${first.name} ${item.label}`}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-valuenow={item.firstScore}
+                    className="metric-track"
+                    role="progressbar"
+                    aria-label={`${first.name} ${item.label}`}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={item.firstScore}
                     >
-                      <div
+                    <div
                         className="metric-fill first-fill"
                         style={{ width: `${item.firstScore}%` }}
-                      />
+                    />
                     </div>
 
                     <strong>{item.firstScore}</strong>
-                  </div>
+                </div>
 
-                  <div className="compare-score-line">
+                <div className="compare-score-line">
                     <span className="compare-score-name">
-                      {second.name}
+                    {second.name}
                     </span>
 
                     <div
-                      className="metric-track"
-                      role="progressbar"
-                      aria-label={`${second.name} ${item.label}`}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-valuenow={item.secondScore}
+                    className="metric-track"
+                    role="progressbar"
+                    aria-label={`${second.name} ${item.label}`}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={item.secondScore}
                     >
-                      <div
+                    <div
                         className="metric-fill second-fill"
                         style={{ width: `${item.secondScore}%` }}
-                      />
+                    />
                     </div>
 
                     <strong>{item.secondScore}</strong>
-                  </div>
+                </div>
 
-                  <p className="metric-difference">
+                <p className="metric-difference">
                     {item.winner === "tie"
-                      ? "Both futures have the same score."
-                      : `${
-                          item.winner === "first"
+                    ? "Both futures have the same score."
+                    : `${
+                        item.winner === "first"
                             ? first.name
                             : second.name
                         } is ahead by ${item.difference} point${
-                          item.difference === 1 ? "" : "s"
+                        item.difference === 1 ? "" : "s"
                         }.`}
-                  </p>
+                </p>
                 </div>
-              ))}
+            ))}
 
-              <div className="compare-actions">
+            <div className="compare-actions">
                 <Link to="/create" className="compare-create-btn">
-                  <Plus className="ui-icon" aria-hidden="true" />
-                  Create Another Scenario
+                <Plus className="ui-icon" aria-hidden="true" />
+                Create Another Scenario
                 </Link>
 
                 <Link
-                  to="/dashboard"
-                  className="compare-dashboard-btn"
+                to="/dashboard"
+                className="compare-dashboard-btn"
                 >
-                  Back to Dashboard
-                  <ArrowUpRight
+                Back to Dashboard
+                <ArrowUpRight
                     className="ui-icon"
                     aria-hidden="true"
-                  />
+                />
                 </Link>
-              </div>
+            </div>
             </section>
-          )}
+        )}
         </>
-      )}
+    )}
     </main>
-  );
+);
 }
