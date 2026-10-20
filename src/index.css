@@ -1167,10 +1167,33 @@ button.secondary-button {
 
 .analytics-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
+  width: 100%;
+  min-width: 0;
   margin-top: 24px;
 }
+
+.analytics-scenario {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #51416e;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+@media (max-width: 900px) {
+  .analytics-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .analytics-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 
 .analytics-scenario {
   padding: 20px;
@@ -1927,20 +1950,55 @@ p {
   height: 24px;
 }
 
+
 .scenario-search-wrap {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+  padding: 0 14px;
+  border: 1px solid #51416e;
+  border-radius: 12px;
+  background: #1d172a;
+  box-sizing: border-box;
 }
 
 .scenario-search-wrap > svg {
-  flex-shrink: 0;
+  position: static;
+  display: block;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
 }
 
 .scenario-search-wrap .scenario-search {
+  flex: 1 1 0;
   min-width: 0;
-  width: 100%;
+  width: 0;
+  padding: 13px 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
 }
+
+.scenario-search-wrap:focus-within {
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 3px #9670ff20;
+}
+
+.app.light-theme .scenario-search-wrap {
+  background: #fff;
+  border-color: #d8c9e8;
+}
+
+.app.light-theme .scenario-search-wrap .scenario-search {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
 
 @media (max-width: 768px) {
   .dashboard-stat > span svg {
@@ -1986,4 +2044,155 @@ p {
 }
 .nav-link.active {
   color: #a855f7;
+}
+
+
+/* Active Navbar Link */
+.app .navbar .links a {
+  position: relative;
+  transition: color 0.35s ease, transform 0.35s ease;
+}
+
+.app .navbar .links a.active {
+  color: #c4b5fd;
+  font-weight: 700;
+}
+
+.app .navbar .links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 2px;
+  border-radius: 10px;
+  background: #ad91ff;
+  transform: scaleX(0);
+  transition: transform 0.35s ease;
+}
+
+.app .navbar .links a.active::after {
+  transform: scaleX(1);
+}
+
+.app .navbar .links a:hover {
+  transform: translateY(-2px);
+}
+
+.app .navbar .logo {
+  transition: color 0.35s ease, transform 0.35s ease;
+}
+
+.app .navbar .logo:hover {
+  transform: translateY(-1px);
+}
+
+.app .navbar .logo.active {
+  color: #c4b5fd;
+}
+
+.app .navbar .logo.active span {
+  color: #ad91ff;
+}
+
+/* Page Transition */
+.page-transition {
+  animation: pageEnter 0.4s ease both;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
+}
+
+/* Dashboard layout fixes */
+.scenario-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+}
+
+.scenario-tools > * {
+  min-width: 0;
+}
+
+.scenario-tools .scenario-search-wrap {
+  grid-column: auto;
+}
+
+.scenario-tools .scenario-select {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 750px) {
+  .scenario-tools {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* Fix Future Comparison layout */
+.dashboard-page .saved-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+  gap: 24px;
+}
+
+.dashboard-page .saved-heading > .analytics-card {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.dashboard-page .analytics-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+}
+
+.dashboard-page .analytics-scenario {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+.dashboard-page .analytics-scenario h3 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 900px) {
+  .dashboard-page .analytics-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-page .analytics-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

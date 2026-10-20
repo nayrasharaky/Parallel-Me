@@ -1,3 +1,4 @@
+import { HashRouter, Routes, Route, Link, NavLink, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   Sun,
@@ -14,24 +15,38 @@ import About from "./pages/About";
 import Compare from "./pages/Compare";
 import Dashboard from "./pages/Dashboard";
 import CreateScenario from "./pages/CreateScenario";
-
-import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
+
 
 function Navbar({ theme, onToggleTheme }) {
   return (
     <nav className="navbar">
-      <Link to="/" className="logo">
+      <NavLink
+        to="/"
+        end
+        className={({ isActive }) =>
+          isActive ? "logo active" : "logo"
+        }
+      >
         Parallel<span>Me.</span>
-      </Link>
+      </NavLink>
 
       <div className="links">
-        <Link to="/">Home</Link>
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/create">Create</Link>
-        <Link to="/compare">Compare</Link>
-        <Link to="/about">About</Link>
-        <Link to="/profile">Profile</Link>
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) =>
+            isActive ? "active" : ""
+          }
+        >
+          Home
+        </NavLink>
+
+        <NavLink to="/dashboard">Dashboard</NavLink>
+        <NavLink to="/create">Create</NavLink>
+        <NavLink to="/compare">Compare</NavLink>
+        <NavLink to="/about">About</NavLink>
+        <NavLink to="/profile">Profile</NavLink>
       </div>
 
       <button
@@ -54,13 +69,14 @@ function Navbar({ theme, onToggleTheme }) {
         )}
       </button>
 
-      <Link to="/create" className="nav-button">
+      <NavLink to="/create" className="nav-button">
         Start Exploring
         <ArrowUpRight className="ui-icon" aria-hidden="true" />
-      </Link>
+      </NavLink>
     </nav>
   );
 }
+
 
 function Footer() {
   return (
@@ -199,6 +215,35 @@ function Page({ title, description }) {
   );
 }
 
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <div className="page-transition" key={location.pathname}>
+      <Routes location={location}>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create" element={<CreateScenario />} />
+        <Route path="/compare" element={<Compare />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/profile" element={<Profile />} />
+        
+        <Route
+          path="*"
+          element={
+            <Page
+              title="Page Not Found"
+              description="This path does not exist. Let's explore another future."
+            />
+          }
+        />
+
+      </Routes>
+    </div>
+  );
+}
+
 function App() {
   const [theme, setTheme] = useState(
     () => localStorage.getItem("parallelMeTheme") || "dark"
@@ -218,24 +263,9 @@ function App() {
         <Navbar theme={theme} onToggleTheme={toggleTheme} />
 
         <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/create" element={<CreateScenario />} />
-            <Route path="/compare" element={<Compare />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route
-              path="*"
-              element={
-                <Page
-                  title="Page Not Found"
-                  description="This path does not exist. Let's explore another future."
-                />
-              }
-            />
-          </Routes>
+          <AnimatedRoutes />
         </main>
+
 
         <Footer />
       </div>

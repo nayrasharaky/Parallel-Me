@@ -342,89 +342,24 @@ return (
         )}
     </section>
 
-    <div className="saved-heading">
-        <div>
+
+<div className="saved-heading">
+    <div>
         <h2>Your Scenarios</h2>
         <p>Search, organize, and explore your saved possibilities.</p>
-        </div>
+    </div>
 
-        {scenarios.length > 0 && (
-        <div className="analytics-card">
-            <div className="analytics-heading">
-            <span className="badge">
-                <ChartNoAxesCombined className="ui-icon" aria-hidden="true" />
-                ANALYTICS
-            </span>
-
-            <h2>Future Comparison</h2>
-            <p>Compare the results of your imagined futures.</p>
-            </div>
-
-            <div className="analytics-list">
-            {scenarios.map((scenario) => {
-                const metrics = [
-                {
-                    name: "Productivity",
-                    value: scenario.results?.productivity ?? 0,
-                },
-                {
-                    name: "Happiness",
-                    value: scenario.results?.happiness ?? 0,
-                },
-                {
-                    name: "Knowledge",
-                    value: scenario.results?.knowledge ?? 0,
-                },
-                {
-                    name: "Health",
-                    value: scenario.results?.health ?? 0,
-                },
-                ];
-
-                return (
-                <div className="analytics-scenario" key={scenario.id}>
-                    <h3>{scenario.name}</h3>
-
-                    {metrics.map((metric) => {
-                    const value = Math.max(
-                        0,
-                        Math.min(100, Number(metric.value) || 0)
-                    );
-
-                    return (
-                        <div className="analytics-metric" key={metric.name}>
-                        <div className="analytics-metric-label">
-                            <span>{metric.name}</span>
-                            <strong>{value}/100</strong>
-                        </div>
-
-                        <div className="analytics-track">
-                            <div
-                            className="analytics-fill"
-                            style={{ width: `${value}%` }}
-                            />
-                        </div>
-                        </div>
-                    );
-                    })}
-                </div>
-                );
-            })}
-            </div>
-        </div>
-        )}
-
-        <div className="dashboard-actions">
+    <div className="dashboard-actions">
         <button
             type="button"
             className="backup-button"
             onClick={() => {
-            try {
-                exportScenarios();
-                showToast("Backup exported successfully!");
-            } catch {
-                showToast("Could not export your scenarios.", "error");
-            }
+                try {
+                    exportScenarios();
+                    showToast("Backup exported successfully!");
+                } catch {
+                    showToast("Could not export your scenarios.", "error");
+                }
             }}
         >
             <Download className="ui-icon" aria-hidden="true" />
@@ -436,11 +371,11 @@ return (
             {importing ? "Importing..." : "Import Backup"}
 
             <input
-            type="file"
-            accept=".json,application/json"
-            onChange={handleImport}
-            disabled={importing}
-            hidden
+                type="file"
+                accept=".json,application/json"
+                onChange={handleImport}
+                disabled={importing}
+                hidden
             />
         </label>
 
@@ -448,7 +383,75 @@ return (
             <Plus className="ui-icon" aria-hidden="true" />
             New Scenario
         </Link>
+    </div>
+
+{scenarios.length > 0 && (
+    <div className="analytics-card">
+        <div className="analytics-heading">
+            <span className="badge">
+                <ChartNoAxesCombined className="ui-icon" aria-hidden="true" />
+                ANALYTICS
+            </span>
+
+            <h2>Future Comparison</h2>
+            <p>Compare the results of your imagined futures.</p>
         </div>
+
+        <div className="analytics-list">
+            {scenarios.map((scenario) => {
+                const metrics = [
+                    {
+                        name: "Productivity",
+                        value: scenario.results?.productivity ?? 0,
+                    },
+                    {
+                        name: "Happiness",
+                        value: scenario.results?.happiness ?? 0,
+                    },
+                    {
+                        name: "Knowledge",
+                        value: scenario.results?.knowledge ?? 0,
+                    },
+                    {
+                        name: "Health",
+                        value: scenario.results?.health ?? 0,
+                    },
+                ];
+
+                return (
+                    <div className="analytics-scenario" key={scenario.id}>
+                        <h3>{scenario.name}</h3>
+
+                        {metrics.map((metric) => {
+                            const value = Math.max(
+                                0,
+                                Math.min(100, Number(metric.value) || 0)
+                            );
+
+                            return (
+                                <div className="analytics-metric" key={metric.name}>
+                                    <div className="analytics-metric-label">
+                                        <span>{metric.name}</span>
+                                        <strong>{value}/100</strong>
+                                    </div>
+
+                                    <div className="analytics-track">
+                                        <div
+                                            className="analytics-fill"
+                                            style={{ width: `${value}%` }}
+                                        />
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+)}
+
+
 
         {backupMessage && (
         <p className="backup-message" role="status">
