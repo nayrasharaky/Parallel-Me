@@ -243,6 +243,23 @@ function AnimatedRoutes() {
     </div>
   );
 }
+  
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+useEffect(() => {
+  window.scrollTo(0, 0);
+
+  const timer = setTimeout(() => {
+    console.log("AFTER ANIMATION:", window.scrollY);
+  }, 600);
+
+  return () => clearTimeout(timer);
+}, [pathname]);
+
+  return null;
+}
+
 
 function App() {
   const [theme, setTheme] = useState(
@@ -257,20 +274,21 @@ function App() {
     setTheme((current) => (current === "dark" ? "light" : "dark"));
   };
 
-  return (
-    <HashRouter>
-      <div className={`app ${theme}-theme`}>
-        <Navbar theme={theme} onToggleTheme={toggleTheme} />
+return (
+  <HashRouter>
+    <ScrollToTop />
 
-        <main>
-          <AnimatedRoutes />
-        </main>
+    <div className={`app ${theme}-theme`}>
+      <Navbar theme={theme} onToggleTheme={toggleTheme} />
 
+      <main>
+        <AnimatedRoutes />
+      </main>
 
-        <Footer />
-      </div>
-    </HashRouter>
-  );
+      <Footer />
+    </div>
+  </HashRouter>
+);
 }
 
 export default App;
