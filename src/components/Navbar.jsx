@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 function Navbar() {
 return (
     <nav className="navbar">
-    <Link to="/" className="logo">
-  Parallel Me
-</Link>
+<NavLink to="/" className="logo">
+Parallel Me
+</NavLink>
 
     <div className="nav-links">
 <NavLink
@@ -17,7 +17,7 @@ className={({ isActive }) =>
 }
 >
 Home
-</NavLink>  
+</NavLink>
         <NavLink to="/dashboard">Dashboard</NavLink>
         <NavLink to="/create">Create</NavLink>
         <NavLink to="/compare">Compare</NavLink>

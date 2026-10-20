@@ -1984,3 +1984,6 @@ p {
     height: 24px;
   }
 }
+.nav-link.active {
+  color: #a855f7;
+}
